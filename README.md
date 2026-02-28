@@ -69,9 +69,7 @@ OutfitLab/
 ## Instalasi
 
 1. **Clone atau download project**
-   ```bash
-   cd c:\xampp\htdocs\OutfitLab
-   ```
+
 
 2. **Setup database**
    - Pastikan MySQL server berjalan (XAMPP Control Panel)
@@ -79,7 +77,7 @@ OutfitLab/
    - Update credential di `php/koneksi.php`
 
 3. **Jalankan aplikasi**
-   - Buka browser dan akses: `http://localhost/OutfitLab`
+   - Buka browser dan akses: `http://localhost/OutfitLab/pages/index.html`
 
 ## Konfigurasi Database
 
@@ -164,14 +162,11 @@ Mendaftarkan email untuk newsletter.
 - Implementasikan HTTPS untuk bertransaksi sensitif
 - Log semua aktivitas penting untuk debugging
 
-## Lisensi
+## Informasi Tambahan
 
-Project ini adalah property pribadi. Penggunaan tanpa izin tidak diperbolehkan.
+Project ini dibuat untuk memenuhi tugas akhir mata kuliah Pemrograman Web Fundamental I
 
-## Kontak
-
-Untuk pertanyaan atau dukungan, hubungi developer.
 
 ---
 
-**Last Updated:** Februari 2026
+
