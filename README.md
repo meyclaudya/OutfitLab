@@ -69,8 +69,7 @@ OutfitLab/
 ## Instalasi
 
 1. **Clone atau download project**
-
-
+   
 2. **Setup database**
    - Pastikan MySQL server berjalan (XAMPP Control Panel)
    - Buat database dan tabel yang diperlukan
@@ -86,6 +85,43 @@ File `php/koneksi.php` berisi konfigurasi koneksi database. Pastikan detail beri
 - Username
 - Password
 - Nama database
+
+## Struktur Database
+
+Database utama bernama `db_toko` berisi beberapa tabel yang digunakan oleh aplikasi. Contoh struktur tabel:
+
+### `produk`
+| Kolom        | Tipe        | Keterangan                                |
+|--------------|-------------|-------------------------------------------|
+| `id`         | INT         | Primary key, auto increment               |
+| `nama_produk`| VARCHAR     | Nama produk                               |
+| `kategori`   | VARCHAR     | Kategori (Pria/Wanita/Anak/Aksesori)      |
+| `harga`      | INT/DECIMAL | Harga jual                                 |
+| `stok`       | INT         | Jumlah stok tersedia                      |
+| `gambar`     | VARCHAR     | Nama file gambar produk                   |
+| `page_category`| VARCHAR   | Kategori halaman untuk navigasi           |
+
+### `produk_sale`
+| Kolom          | Tipe        | Keterangan                               |
+|----------------|-------------|------------------------------------------|
+| `id`           | INT         | Primary key, auto increment              |
+| `nama_produk`  | VARCHAR     | Nama produk sale                         |
+| `kategori`     | VARCHAR     | Kategori produk                          |
+| `harga_asli`   | INT/DECIMAL | Harga sebelum diskon                     |
+| `harga_sale`   | INT/DECIMAL | Harga saat ini (diskon)                  |
+| `stok`         | INT         | Jumlah stok                              |
+| `gambar`       | VARCHAR     | File gambar produk                       |
+| `page_category`| VARCHAR     | Kategori halaman                         |
+
+### `subscribers`
+| Kolom   | Tipe     | Keterangan                        |
+|---------|----------|-----------------------------------|
+| `id`    | INT      | Primary key, auto increment       |
+| `email` | VARCHAR  | Alamat email pelanggan newsletter |
+
+> **Catatan:** Struktur ini merupakan contoh berdasarkan kolom yang dipanggil oleh kode PHP. Sesuaikan tipe data dan index sesuai kebutuhan Anda.
+
+
 
 ## API Endpoints
 
@@ -141,15 +177,13 @@ Mendaftarkan email untuk newsletter.
 | `php/koneksi.php` | Koneksi dan query database |
 | `php/proses_beli.php` | Business logic pembelian |
 
+**Catatan: Masukkan file foto-foto produk ke dalam folder `uploads`**
+
 ## Troubleshooting
 
 **Database Connection Error**
 - Pastikan MySQL server berjalan
 - Verifikasi credential di `php/koneksi.php`
-
-**File Upload Error**
-- Pastikan direktori `uploads/` memiliki permission 777
-- Cek ukuran file yang diupload
 
 **Items Not Showing**
 - Verifikasi data di database
