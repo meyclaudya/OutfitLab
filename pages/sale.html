@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sale - OutfitLab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="sale-page">
+    <!-- Header -->
+    <header>
+        <div class="top-bar">
+            <button class="mobile-menu-btn">
+                <i data-feather="menu"></i>
+            </button>
+            <a href="index.html" class="logo">OutfitLab<span>.</span></a>
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Cari produk sale...">
+            </div>
+            <button class="mobile-search-btn">
+                <i data-feather="search"></i>
+            </button>
+            <div class="cart-icon">
+                <i data-feather="shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </div>
+        </div>
+        <nav>
+            <ul class="category-nav">
+                <li><a href="index.html">Beranda</a></li>
+                <li><a href="pria.html">Pria</a></li>
+                <li><a href="wanita.html">Wanita</a></li>
+                <li><a href="anak.html">Anak-anak</a></li>
+                <li><a href="accessories.html">Accessories</a></li>
+                <li><a href="sale.html" class="active">Sale</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Mobile Search Container -->
+    <div class="mobile-search-container">
+        <input type="text" class="search-input" placeholder="Cari produk sale...">
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>SALE SPESIAL</h1>
+            <p>Dapatkan diskon hingga 70% untuk koleksi terbaik kami</p>
+            <a href="#products" class="btn">Belanja Sekarang</a>
+        </section>
+
+        <!-- Products Section -->
+        <section id="products" class="featured-section">
+            <h2 class="section-title">Produk Sale</h2>
+            <div class="product-grid" id="productGrid">
+                <!-- Products will be loaded here dynamically -->
+            </div>
+        </section>
+
+        <!-- Promotions -->
+        <section class="promotions">
+            <h2 class="section-title">Promosi Spesial</h2>
+            <div class="promo-grid">
+                <!-- Promo 1 -->
+                <div class="promo-card">
+                    <img src="../uploads/discount.png" alt="Promo 1" class="promo-img">
+                    <div class="promo-content">
+                        <h3 class="promo-title">DISKON 50%</h3>
+                        <p class="promo-desc">Untuk pembelian kedua produk</p>
+                    </div>
+                </div>
+                
+                <!-- Promo 2 -->
+                <div class="promo-card">
+                    <img src="../uploads/buy 2 get 1.png" alt="Promo 2" class="promo-img">
+                    <div class="promo-content">
+                        <h3 class="promo-title">BUY 2 GET 1</h3>
+                        <p class="promo-desc">Beli 2 produk, dapatkan 1 produk gratis</p>
+                    </div>
+                </div>
+                
+                <!-- Promo 3 -->
+                <div class="promo-card">
+                    <img src="../uploads/free.png" alt="Promo 3" class="promo-img">
+                    <div class="promo-content">
+                        <h3 class="promo-title">FREE SHIPPING</h3>
+                        <p class="promo-desc">Untuk pembelian minimal Rp 300.000</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <!-- Column 1 -->
+            <div class="footer-col">
+                <h3>OutfitLab.</h3>
+                <p>OutfitLab adalah toko fashion terkemuka yang menawarkan pakaian dan aksesori berkualitas tinggi untuk pria, wanita, dan anak-anak.</p>
+                <div class="social-icons">
+                    <a href="https://www.instagram.com/uniqloindonesia/"><i data-feather="instagram"></i></a>
+                    <a href="https://www.facebook.com/UniqloIndonesiaOfficial/"><i data-feather="facebook"></i></a>
+                    <a href="https://twitter.com/uniqloindonesia"><i data-feather="twitter"></i></a>
+                    <a href="https://www.youtube.com/channel/UCcpMlHx9_rMO_3dsEZ506fw"><i data-feather="youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script>
+        feather.replace();
+    </script>
+</body>
+</html> 

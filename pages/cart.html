@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keranjang - OutfitLab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="top-bar">
+            <button class="mobile-menu-btn">
+                <i data-feather="menu"></i>
+            </button>
+            <a href="index.html" class="logo">OutfitLab<span>.</span></a>
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Cari produk...">
+            </div>
+            <button class="mobile-search-btn">
+                <i data-feather="search"></i>
+            </button>
+            <div class="cart-icon">
+                <i data-feather="shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </div>
+        </div>
+        <nav>
+            <ul class="category-nav">
+                <li><a href="index.html">Beranda</a></li>
+                <li><a href="pria.html">Pria</a></li>
+                <li><a href="wanita.html">Wanita</a></li>
+                <li><a href="anak.html">Anak-anak</a></li>
+                <li><a href="accessories.html">Accessories</a></li>
+                <li><a href="sale.html">Sale</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Mobile Search Container -->
+    <div class="mobile-search-container">
+        <input type="text" class="search-input" placeholder="Cari produk...">
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <div class="cart-container">
+            <h1>Keranjang Belanja</h1>
+            <div id="cart-content">
+                <!-- Cart items will be dynamically inserted here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <!-- Column 1 -->
+            <div class="footer-col">
+                <h3>OutfitLab.</h3>
+                <p>OutfitLab adalah toko fashion terkemuka yang menawarkan pakaian dan aksesori berkualitas tinggi untuk pria, wanita, dan anak-anak.</p>
+                <div class="social-icons">
+                    <a href="https://www.instagram.com/uniqloindonesia/"><i data-feather="instagram"></i></a>
+                    <a href="https://www.facebook.com/UniqloIndonesiaOfficial/"><i data-feather="facebook"></i></a>
+                    <a href="https://twitter.com/uniqloindonesia"><i data-feather="twitter"></i></a>
+                    <a href="https://www.youtube.com/channel/UCcpMlHx9_rMO_3dsEZ506fw"><i data-feather="youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Checkout</h2>
+            <form id="checkout-form">
+                <div class="form-group">
+                    <label for="customer-name">Nama Lengkap</label>
+                    <input type="text" id="customer-name" name="customer_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="customer-email">Email</label>
+                    <input type="email" id="customer-email" name="customer_email" required>
+                </div>
+                <div class="form-group">
+                    <label for="customer-phone">Nomor HP</label>
+                    <input type="tel" id="customer-phone" name="customer_phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="customer-address">Alamat Pengiriman</label>
+                    <textarea id="customer-address" name="customer_address" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Total Pembayaran</label>
+                    <div id="checkout-total" class="checkout-total"></div>
+                </div>
+                <button type="submit" class="pay-now-btn">Bayar Sekarang</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="../assets/js/script.js"></script>
+    <script>
+        // Initialize Feather Icons
+        feather.replace();
+
+        // Data stok produk dari database
+        let productStock = {};
+
+        // Fungsi untuk mengambil data stok dari database
+        function fetchProductStock() {
+            fetch('../php/get_stock.php')
+                .then(response => response.json())
+                .then(data => {
+                    productStock = data;
+                    displayCart(); // Refresh tampilan cart setelah mendapatkan data stok
+                })
+                .catch(error => {
+                    console.error('Error fetching stock:', error);
+                    showNotification('Gagal mengambil data stok', 'error');
+                });
+        }
+
+        // Fungsi untuk menampilkan isi keranjang
+        function displayCart() {
+            console.log('Displaying cart...'); // Debug log
+            const cartContent = document.getElementById('cart-content');
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            // === PASTIKAN ID DALAM FORMAT STRING & isSale boolean ===
+            cart = cart.map(item => ({
+                ...item,
+                id: String(item.id), // Pastikan ID selalu string
+                isSale: !!item.isSale // Pastikan isSale boolean
+            }));
+            // ====================================================
+
+            // Filter out dummy product by id or title
+            const filteredCart = cart.filter(item => item.id !== 'jeans-3' && item.title !== 'Jeans Slim Fit Premium');
+            console.log('Cart data:', filteredCart); // Debug log
+
+            if (!filteredCart || filteredCart.length === 0) {
+                console.log('Cart is empty'); // Debug log
+                cartContent.innerHTML = `
+                    <div class="empty-cart">
+                        <i data-feather="shopping-cart"></i>
+                        <h2>Keranjang Belanja Kosong</h2>
+                        <p>Anda belum menambahkan produk ke keranjang</p>
+                        <a href="index.html" class="continue-shopping">Lanjut Belanja</a>
+                    </div>
+                `;
+                feather.replace();
+                return;
+            }
+
+            let total = 0;
+            let totalItems = 0;
+            let hasStockError = false;
+
+            const itemsHTML = filteredCart.map(item => {
+                console.log('Processing item:', item); // Debug log
+                let price = item.price;
+                if (typeof price === 'string') {
+                    price = parseInt(price.replace(/[^0-9]/g, ''));
+                } else {
+                    price = parseInt(price);
+                }
+                const itemTotal = price * item.quantity;
+                total += itemTotal;
+                totalItems += item.quantity;
+
+                // Cek stok
+                const stockKey = item.isSale ? 's_' + item.id.substring(2) : 'p_' + item.id.substring(2);
+                const stock = productStock[stockKey] || 0;
+                const isOutOfStock = item.quantity > stock;
+                if (isOutOfStock) hasStockError = true;
+
+                return `
+                    <div class="cart-item ${isOutOfStock ? 'out-of-stock' : ''}" data-id="${item.id}">
+                        <img src="${item.image}" alt="${item.title}" onerror="this.src='images/placeholder.jpg'">
+                        <div class="item-details">
+                            <h3>${item.title}</h3>
+                            <div class="item-category">${item.category || ''}</div>
+                            <div class="stock-info">Stok tersedia: ${stock}</div>
+                            ${isOutOfStock ? '<div class="stock-warning">Stok tidak mencukupi</div>' : ''}
+                        </div>
+                        <div class="item-price">
+                            ${item.isSale ? `
+                                <span class="original-price">Rp ${(price * 1.2).toLocaleString()}</span>
+                                <span class="sale-price">${item.price}</span>
+                            ` : item.price}
+                        </div>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn minus" onclick="updateQuantity('${item.id}', -1)" ${item.quantity <= 1 ? 'disabled' : ''}>
+                                <i data-feather="minus"></i>
+                            </button>
+                            <span class="quantity">${item.quantity}</span>
+                            <button class="quantity-btn plus" onclick="updateQuantity('${item.id}', 1)" ${item.quantity >= stock ? 'disabled' : ''}>
+                                <i data-feather="plus"></i>
+                            </button>
+                        </div>
+                        <div class="item-total">
+                            Rp ${itemTotal.toLocaleString()}
+                        </div>
+                        <button class="remove-btn" onclick="removeItem('${item.id}')">
+                            <i data-feather="trash-2"></i>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+
+            cartContent.innerHTML = `
+                <div class="cart-items">
+                    ${itemsHTML}
+                </div>
+                <div class="cart-summary">
+                    <h3>Ringkasan Pembelian</h3>
+                    <div class="summary-row">
+                        <span>Total Item</span>
+                        <span>${totalItems} item</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span>Rp ${total.toLocaleString()}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Pengiriman</span>
+                        <span>Gratis</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total Pembayaran</span>
+                        <span>Rp ${total.toLocaleString()}</span>
+                    </div>
+                    <button class="checkout-btn" onclick="checkout()" ${hasStockError ? 'disabled' : ''}>
+                        ${hasStockError ? 'Stok Tidak Mencukupi' : 'Checkout'}
+                    </button>
+                </div>
+            `;
+
+            feather.replace();
+        }
+
+        // Fungsi untuk mengupdate quantity
+        function updateQuantity(id, change) {
+            console.log('Updating quantity for item:', id, 'change:', change); // Debug log
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const item = cart.find(item => item.id === id);
+            
+            if (item) {
+                const newQuantity = item.quantity + change;
+                const stockKey = item.isSale ? 's_' + id.substring(2) : 'p_' + id.substring(2);
+                const stock = productStock[stockKey] || 0;
+
+                if (newQuantity >= 1 && newQuantity <= stock) {
+                    item.quantity = newQuantity;
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    displayCart();
+                    updateCartCount();
+                } else if (newQuantity > stock) {
+                    showNotification('Stok tidak mencukupi', 'error');
+                }
+            }
+        }
+
+        // Fungsi untuk menghapus item
+        function removeItem(id) {
+            console.log('Removing item:', id); // Debug log
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const newCart = cart.filter(item => item.id !== id);
+            localStorage.setItem('cart', JSON.stringify(newCart));
+            displayCart();
+            updateCartCount();
+            showNotification('Produk berhasil dihapus dari keranjang');
+        }
+
+        // Fungsi untuk menampilkan notifikasi
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <i data-feather="${type === 'success' ? 'check-circle' : 'alert-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            document.body.appendChild(notification);
+            
+            // Trigger animation
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+            
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+            
+            // Initialize Feather Icons
+            feather.replace();
+        }
+
+        // Fungsi untuk checkout
+        function checkout() {
+            // Validasi stok
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const hasStockError = cart.some(item => {
+                const stockKey = item.isSale ? 's_' + item.id.substring(2) : 'p_' + item.id.substring(2);
+                const stock = productStock[stockKey] || 0;
+                return item.quantity > stock;
+            });
+
+            if (hasStockError) {
+                showNotification('Beberapa produk stoknya tidak mencukupi', 'error');
+                return;
+            }
+
+            // Tampilkan modal checkout
+            const modal = document.getElementById('checkout-modal');
+            if (!modal) {
+                console.error('Modal element not found!');
+                return;
+            }
+
+            // Set total pembayaran
+            const total = cart.reduce((sum, item) => {
+                const price = typeof item.price === 'string' ? 
+                    parseInt(item.price.replace(/[^0-9]/g, '')) : 
+                    parseInt(item.price);
+                return sum + (price * item.quantity);
+            }, 0);
+
+            // Update total di modal
+            const checkoutTotal = document.getElementById('checkout-total');
+            if (checkoutTotal) {
+                checkoutTotal.textContent = `Rp ${total.toLocaleString()}`;
+            }
+
+            // Tampilkan modal
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+
+            // Setup event listeners
+            const closeBtn = modal.querySelector('.close-modal');
+            if (closeBtn) {
+                closeBtn.onclick = function() {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            }
+
+            // Close modal when clicking outside
+            window.onclick = function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            }
+
+            // Handle form submission
+            const checkoutForm = document.getElementById('checkout-form');
+            if (checkoutForm) {
+                checkoutForm.onsubmit = function(e) {
+                    e.preventDefault();
+                    
+                    const formData = {
+                        customer_name: document.getElementById('customer-name').value,
+                        customer_email: document.getElementById('customer-email').value,
+                        customer_phone: document.getElementById('customer-phone').value,
+                        customer_address: document.getElementById('customer-address').value,
+                        total_amount: total,
+                        items: cart
+                    };
+                    
+                    // Send data to server
+                    fetch('../checkout/checkout.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Clear cart
+                            localStorage.removeItem('cart');
+                            updateCartCount();
+                            
+                            // Show success message
+                            showNotification(`Pesanan berhasil dibuat! Nomor Pesanan: ${data.order_number}`);
+                            
+                            // Close modal
+                            modal.style.display = 'none';
+                            document.body.style.overflow = 'auto';
+                            
+                            // Redirect to WhatsApp after a short delay
+                            setTimeout(() => {
+                                window.location.href = data.whatsapp_url;
+                            }, 2000);
+                        } else {
+                            throw new Error(data.message);
+                        }
+                    })
+                    .catch(error => {
+                        showNotification(error.message, 'error');
+                    });
+                }
+            }
+        }
+
+        // Initialize cart display
+        fetchProductStock();
+    </script>
+</body>
+</html>

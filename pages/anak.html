@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anak-anak - OutfitLab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="top-bar">
+            <button class="mobile-menu-btn">
+                <i data-feather="menu"></i>
+            </button>
+            <a href="index.html" class="logo">OutfitLab<span>.</span></a>
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Cari produk anak...">
+            </div>
+            <button class="mobile-search-btn">
+                <i data-feather="search"></i>
+            </button>
+            <div class="cart-icon">
+                <i data-feather="shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </div>
+        </div>
+        <nav>
+            <ul class="category-nav">
+                <li><a href="index.html">Beranda</a></li>
+                <li><a href="pria.html">Pria</a></li>
+                <li><a href="wanita.html">Wanita</a></li>
+                <li><a href="anak.html" class="active">Anak-anak</a></li>
+                <li><a href="accessories.html">Accessories</a></li>
+                <li><a href="sale.html">Sale</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Mobile Search Container -->
+    <div class="mobile-search-container">
+        <input type="text" class="search-input" placeholder="Cari produk anak...">
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>KOLEKSI ANAK-ANAK</h1>
+            <p>Temukan koleksi pakaian anak-anak terbaik untuk si kecil</p>
+            <a href="#products" class="btn">Belanja Sekarang</a>
+        </section>
+
+        <!-- Products Section -->
+        <section id="products" class="featured-section">
+            <h2 class="section-title">Produk Unggulan</h2>
+            <div class="product-grid" id="productGrid">
+                <!-- Products will be loaded here dynamically -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <!-- Column 1 -->
+            <div class="footer-col">
+                <h3>OutfitLab.</h3>
+                <p>OutfitLab adalah toko fashion terkemuka yang menawarkan pakaian dan aksesori berkualitas tinggi untuk pria, wanita, dan anak-anak.</p>
+                <div class="social-icons">
+                    <a href="https://www.instagram.com/uniqloindonesia/"><i data-feather="instagram"></i></a>
+                    <a href="https://www.facebook.com/UniqloIndonesiaOfficial/"><i data-feather="facebook"></i></a>
+                    <a href="https://twitter.com/uniqloindonesia"><i data-feather="twitter"></i></a>
+                    <a href="https://www.youtube.com/channel/UCcpMlHx9_rMO_3dsEZ506fw"><i data-feather="youtube"></i></a>
+                </div>
+            </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+    <script>
+        feather.replace();
+    </script>
+</body>
+</html> 
